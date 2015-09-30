@@ -8,7 +8,7 @@
 
 所以,我就撸了一个面向对象风格的简易版，代码数少到不行，[代码在github上](https://github.com/jzlxiaohei/zlux)，（还附带了`react-redux`的`connect`的简易版，不过方面的代码注释掉了，因为这是为了配合react的功能，而redux的设计有独立于react的初衷。
 
-在本人的一个demo项目中，使用下来，感觉还行。[demo地址](http://dapigu.wallstcn.com/react-test.htm) 样式上主要适配手机，pc上也能看，另外控制台有列表页加载数据的log，如下图。demo的代码暂时不对外，需要整理。
+在本人的一个demo项目中，使用下来，感觉还行。[demo地址](http://dapigu.wallstcn.com/react-test.html) 样式上主要适配手机，pc上也能看，另外控制台有列表页加载数据的log，如下图。demo的代码暂时不对外，需要整理。
 
 ![screen for console](console.png)
 
