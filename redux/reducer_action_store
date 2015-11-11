@@ -1,4 +1,4 @@
-# redux中的Reducer 和Store
+# redux中的Reducer Action和Store
 
 Array中的`reduce`方法，个人感觉出镜率并不高。但是和函数式有点关系的语言或库，这个东西都是标配。
 
