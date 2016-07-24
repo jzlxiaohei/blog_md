@@ -37,8 +37,8 @@ redux的源码很少，但是理念却非常足量，记得当时我看的云里
 	在你的`state`（通常是类的实例属性）前，加上这个就可以了，这个字段会成为`被观察的本源`。比如
 	
   ```javascript	
-  	@observable price = 0;
-      	@observable amount = 1;
+  @observable price = 0;
+  @observable amount = 1;
   ```
 	
 2. `@computed`
