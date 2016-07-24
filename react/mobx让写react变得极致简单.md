@@ -154,8 +154,11 @@ redux的源码很少，但是理念却非常足量，记得当时我看的云里
 #其他的api
 `mobx`还提供了其他一些api，相对高级点，比如
 1. `untrack`：在某一时刻使用了state的某个属性，但是不想对这个state属性产生依赖
+
 2. `transaction`:在`transaction`块中执行的属性修改，只会在块结束时，触发一次`Derivations`的变更或执行。这就避免了不必要的多次副作用，比如多次 render react组件。
+
 3. `useStrict`： 非严格模式下的mobx，任何地方都可以修改state，这样很快就会让state的管理难以维护。严格模式下，只有标记了`@action`或在`runInAction`中的代码，才能修改state。这个强烈建议使用
+
 4. spy & intercept 做单个state或全局所有state的拦截。这给log等功能，提供了很好的便利。
 
 还有一些，大家去读文档吧。
