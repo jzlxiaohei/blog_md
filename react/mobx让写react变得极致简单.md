@@ -37,8 +37,8 @@ redux的源码很少，但是理念却非常足量，记得当时我看的云里
 	在你的`state`（通常是类的实例属性）前，加上这个就可以了，这个字段会成为`被观察的本源`。比如
 	
   ```javascript	
-  		@observable price:number = 0;
-      	@observable amount:number = 1;
+  	@observable price = 0;
+      	@observable amount = 1;
   ```
 	
 2. `@computed`
@@ -51,7 +51,7 @@ redux的源码很少，但是理念却非常足量，记得当时我看的云里
           }
   ```        
     
-	如果price或amount任意一个发生改变，total也会相应改变。
+如果price或amount任意一个发生改变，total也会相应改变。
 	
 3. `autorun	`
 
