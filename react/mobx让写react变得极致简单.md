@@ -188,7 +188,7 @@ reducer的理念好，`nextState = f(curState,action)`,整个状态的流转都�
 
 2.性能
 
- mobx按照你的感觉写，自然就会有不错的性能。
+ mobx按照你的感觉写，自然就会有不错的性能。这点，我看的各种资料，已经twitter上大家的讨论，基本是共识
 
 3.state管理更加灵活
 
