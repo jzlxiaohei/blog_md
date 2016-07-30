@@ -46,9 +46,9 @@ redux的源码很少，但是理念却非常足量，记得当时我看文档，
 	派生出来的属性。
 
   ```javascript
-          @computed get total(){
-              return this.price * this.amount;
-          }
+  @computed get total(){
+      return this.price * this.amount;
+  }
   ```        
     
 如果price或amount任意一个发生改变，total也会相应改变。
@@ -58,7 +58,7 @@ redux的源码很少，但是理念却非常足量，记得当时我看文档，
 	派生副作用
 
 ```javascript	
-		autorun(()=>{console.log(total.get())})
+autorun(()=>{console.log(total.get())})
 ```
 		
 这个匿名函数，依赖于total产生io的副作用。只要total变化，就会打印total的值。这里实际上形成了一个派生链，`（price,amount）=> total => console.log(total.get())`
@@ -69,7 +69,7 @@ redux的源码很少，但是理念却非常足量，记得当时我看文档，
 		autorun(()=>{render(state,props)}
 ```		
 
-	即可以更新view。	autorun里函数的执行，也是根据state的变化，自动触发的。
+即可以更新view。	autorun里函数的执行，也是根据state的变化，自动触发的。
 	
 根据这几个基本组成，是否能大致想象自动更新view的流程？	
 		
