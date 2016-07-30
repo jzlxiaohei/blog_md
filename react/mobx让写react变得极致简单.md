@@ -9,7 +9,7 @@
 
 #mobx的理念
 
-redux的源码很少，但是理念却非常足量，记得当时我看的云里雾里，读了几遍，但是完全不知道该怎么去写代码。。。mobx也有相应的一套理念，不过了解个几分钟，就可以上手用起来了。
+redux的源码很少，但是理念却非常足量，记得当时我看文档，看得云里雾里，读了几遍，但是完全不知道该怎么去写代码，去读了两天源码，代码很少，很快读完，但还是不知道怎么写。。。mobx也有相应的一套理念，不过了解个几分钟，就可以上手用起来了。
 
 ###mobx的几个关键组成
 1. state
@@ -89,27 +89,29 @@ redux的源码很少，但是理念却非常足量，记得当时我看的云里
   ```
 如果nickName不为空，那么mobx知道，这个view只依赖于nickName，fullName的变动不会引起view的变化，从而不会从新render组件。
 
-使用mobx开发的流程，根据领域模型，写model.这个model就是最基本的es6 class加些decorator,像下面这样：
+使用mobx开发的流程：
+
+步奏一：根据领域模型，写model.这个model就是最基本的es6 class加些decorator,像下面这样：
 
 ```javascript
 	
 	import {observable} from "mobx";
 
 	class OrderLine {
-    	@observable price = 0;
-    	@observable amount = 1;
-
-    	constructor(price) {
-        	this.price = price;
-    	}
-
-    	@computed get total() {
-        	return this.price * this.amount;
-    	}
-    	
-    	@action setPrice(price){
-    		this.price = 10;
-    	}
+	    	@observable price = 0;
+	    	@observable amount = 1;
+	
+	    	constructor(price) {
+	        	this.price = price;
+	    	}
+	
+	    	@computed get total() {
+	        	return this.price * this.amount;
+	    	}
+	    	
+	    	@action setPrice(price){
+	    		this.price = 10;
+	    	}
 	}
 	...
 	export default OrderLine;
@@ -118,7 +120,11 @@ redux的源码很少，但是理念却非常足量，记得当时我看的云里
 
 暂时不考虑`@observable`等decorator的作用，这种类，对于已经使用es6工作的同学，没写过上千，也写过几百个吧。而且这东西，对于后端同学来说，也很熟悉（因为后台项目实在太多，我们的有些后台界面，是后端同学维护的），甚至可以根据`api`,自动生成大部分的东西。测试一个model，也是一件很容易的事。
 
-然后写react组件
+对于一般项目，领域模型建模是理解业务的基石，上面这种写法，一眼就能对领域模型有大致的了解。redux的reducer里，虽然也有领域模型的所有信息，但是噪声太多，还有一些相关代码在`action`里。一个领域模型被拆了以后，又引出文件组织的问题，到底是所有action发一个文件夹下，还是根据业务模型，把action和相对应reducer放一起。
+
+reducer的理念好，`nextState = f(curState,action)`,整个状态的流转都包含在里面，但是对于一般业务，我的感觉是，完全清楚状态的流转，是不必要的。感觉很像以前做物理题，根据能量守恒，知道初始状态和最终状态可以方便了处理很多问题，试图弄清中间过程的所有状态，没有必要，甚至会提高出错的概率.而写mobx，基本只要关注实例对象的属性变化，这是一般工程师熟悉的处理方式。
+
+步奏二：写react组件
 
 ``` javascript
 
@@ -150,6 +156,8 @@ redux的源码很少，但是理念却非常足量，记得当时我看的云里
 这里的react组件，只是加了`@observer`,其他都是基本写法。在state管理上，组件的state，是上面的定义的class OrderLine的实例对象，可以通过父组件传入，也可以自己管理。然后OrderLine被观察的属性一变动，界面马上就相应的变动.
 
 这种管理状态的方式，和redux的全局单个state tree的模式很不一样。这种更灵活些，可以`new`多个实例，各个view有自己的state;如果是应用全局的state，这个state可以被多个view依赖，使用者做好全局单例的处理即可。本质上就是对model的处理，想怎么处理，完全取决于使用者。
+
+从前端开发的角度，每个页面相对独立，自己管理自己的状态，是大家都能hold住得一种开发方式。我接手一个项目，基本是以线上每个页面为出发点，对项目进行熟悉；平时维护，产品的需求也xx页面要加什么东西，改什么东西。页面相对独立好维护，改动以后出问题的可能性也小。如果一个spa中，有多个状态是要多个页面共享，会让人感觉乱乱的，这种情况用redux，会清晰很好。但是很多状态不需要放到全局，用redux你会把很多不需要多个页面共享的状态，也放到全局。
 
 #其他的api
 `mobx`还提供了其他一些api，相对高级点，比如
@@ -186,9 +194,9 @@ redux的源码很少，但是理念却非常足量，记得当时我看的云里
 
 redux的`Single source of truth`虽然说着很美好，但是实际操作起来，有些场景很别扭。
 
-比如用户设置地址时的省市联动功能，选择省以后，要触发`fetchCityByProvince`,选择城市后，要触发`fetchCountryByCity`,然后还有两个相应的reducer。现在页面有三处需要用户填写地址的地方，这就需要3套完全一样的 `action`，`reducer`。虽然可以适当的包装，重用大部分的action和reducer逻辑，但是使用上非常不爽。而使用mobx的话，new 3个AddressModal的class实例，搞定。
+比如用户设置地址时的省市联动功能，选择省以后，要触发`fetchCityByProvince`,选择城市后，要触发`fetchCountryByCity`,然后还有两个相应的reducer。现在页面有三处需要用户填写地址的地方，这就需要3套完全一样的 `action`，`reducer`。虽然可以适当的包装，重用大部分的action和reducer逻辑，但是总归要起三个`action.type`的名字，三个reducer生成的`state`的名字。而使用mobx的话，new 3个AddressModal的class实例即可。
 
-不过使用mobx，你需要根据情况管理state，是多个实例，还是全局唯一的实例，要求会高一些。不过管理模型，对工程师来说是必备技能。
+我比较能接收的方式还是 最小化全局的状态，页面再自己维护属于自己的状态。使用mobx，全局的状态可以使用全局单例，各自独立的状态，各个页面，各个组件自己去new 自己的实例，自己管理。
 
 
 ###缺点：
@@ -198,9 +206,10 @@ redux的`Single source of truth`虽然说着很美好，但是实际操作起来
 2.经过`@observable`包装过的属性，已经不是js的原生属性了，可能会在一些数据处理方面和调试上带来不便。不过mobx支持一些常用的原生处理方法，比如包装后的array，也支持map,filter能方法。另外`有toJS`方法，可以转成原生的js对象或数组。
 
 3.大型项目
-大家都在说redux适合大型项目，本人写的项目，最大也就十几个页面左右的spa；有些页面录入数据很复杂，单个页面就有几十个组件。
-所以在我的认知范围内，我是没觉得有什么项目是用redux会比mobx爽的。另外代码量和维护难度虽不是完全正比，但是起码是正相关关系。
-就像之前大家都说java适合写大型项目，不知道是真有体验，还是就随口说说。不过大家都那么说，我又没有实际体验，暂时承认吧。。。
+大家都在说redux适合大型项目，这个我反驳不了。
+
+本人写的项目，最大也就十几个页面左右的spa；有些页面录入数据很复杂，单个页面有几十个组件。
+所以在我的认知范围内，我是没觉得有什么项目是用redux会比mobx爽的。另外代码量和维护难度虽不是完全正比，但是起码是正相关关系。另外领域模型的清晰程度来说，我也认为mobx完胜
 
 
 #体验mobx
