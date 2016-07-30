@@ -197,7 +197,7 @@ reducer的理念好，`nextState = f(curState,action)`,整个状态的流转都�
 
 redux的`Single source of truth`虽然说着很美好，但是实际操作起来，有些场景很别扭。
 
-比如用户设置地址时的省市联动功能，选择省以后，要触发`fetchCityByProvince`,选择城市后，要触发`fetchCountryByCity`,然后还有两个相应的reducer。现在页面有三处需要用户填写地址的地方，这就需要3套完全一样的 `action`，`reducer`。虽然可以适当的包装，重用大部分的action和reducer逻辑，但是总归要起三个`action.type`的名字，三个reducer生成的`state`的名字。而使用mobx的话，new 3个AddressModal的class实例即可。
+比如用户设置地址时的省市联动功能，选择省以后，要触发`fetchCityByProvince`,选择城市后，要触发`fetchCountryByCity`,然后还有两个相应的reducer。现在页面有三处需要用户填写地址的地方，这就需要3套完全一样的 `action`，`reducer`。虽然可以适当的包装，重用大部分的action和reducer逻辑，但是总归要起三个`action.type`的名字，三个reducer生成的`state`的名字。而使用mobx的话，new 3个AddressModel的class实例即可。
 
 我比较能接收的方式还是 最小化全局的状态，页面再自己维护属于自己的状态。使用mobx，全局的状态可以使用全局单例，各自独立的状态，各个页面，各个组件自己去new 自己的实例，自己管理。
 
